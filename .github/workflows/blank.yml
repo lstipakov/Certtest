@@ -19,4 +19,4 @@ jobs:
           encodedString: ${{ secrets.SIGNING_CERT }}
     
       - name: Get date
-        run: Get-ChildItem {{ env.RUNNER_TEMP }}
+        run: Get-ChildItem $Env:GITHUB_ENV
