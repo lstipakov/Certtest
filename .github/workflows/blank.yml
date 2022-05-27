@@ -11,12 +11,12 @@ jobs:
     runs-on: windows-2019
 
     steps:
-      - name: Run Workflow
+      - name: Step 1
         id: write_file
         uses: timheuer/base64-to-file@v1.1
         with:
           fileName: 'cert.pfx'
           encodedString: ${{ secrets.SIGNING_CERT }}
     
-      - name: Get date
-        run: Get-ChildItem $Env:RUNNER_TEMP
+      - name: Step 2
+        run: Import-PfxCertificate -FilePath ${{ steps.write_file.outputs.filePath }} -CertStoreLocation Cert:\CurrentUser\My -Password (ConvertTo-SecureString -String "${{ secrets.CERT_PASSWORD }}" -Force -AsPlainText)
