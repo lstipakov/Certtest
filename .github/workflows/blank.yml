@@ -1,0 +1,22 @@
+# The name of our workflow
+name: Build
+on:
+  push:
+  pull_request:
+
+jobs:
+  msvc:
+  
+    name: 'cert-test'
+    runs-on: windows-2019
+
+    steps:
+      - name: Run Workflow
+        id: write_file
+        uses: timheuer/base64-to-file@v1.1
+        with:
+          fileName: 'cert.pfx'
+          encodedString: ${{ secrets.SIGNING_CERT }}
+    
+      - name: Get date
+        run: Get-ChildItem {{ env.RUNNER_TEMP }}
