@@ -5,13 +5,17 @@ on:
   pull_request:
 
 jobs:
+
   msvc:
   
     name: 'cert-test'
     runs-on: windows-2019
+    env:
+      super_secret: ${{ secrets.SIGNING_CERT }}
 
     steps:
       - name: Step 1
+        if: ${{ env.super_secret != '' }}
         id: write_file
         uses: timheuer/base64-to-file@v1.1
         with:
@@ -19,4 +23,5 @@ jobs:
           encodedString: ${{ secrets.SIGNING_CERT }}
     
       - name: Step 2
+        if: ${{ env.super_secret != '' }}
         run: Import-PfxCertificate -FilePath ${{ steps.write_file.outputs.filePath }} -CertStoreLocation Cert:\CurrentUser\My -Password (ConvertTo-SecureString -String "${{ secrets.CERT_PASSWORD }}" -Force -AsPlainText)
