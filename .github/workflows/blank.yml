@@ -19,8 +19,7 @@ jobs:
       - name: Step 0
         run: |
           $dt = Get-Date -Format "yyyyMMddhhmmss"
-          $sha = ${{ github.event.client_payload.sha }}
-          $sha = $sha.Substring(0, 8)
+          $sha = '${{ github.event.client_payload.sha }}'.Substring(0, 8)
           Write-Host "openvpn-master-$dt-$sha.msi"
 
       - name: Step 1
