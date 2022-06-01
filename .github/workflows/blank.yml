@@ -17,7 +17,7 @@ jobs:
 
     steps:
       - name: Step 0
-        run: Write-Host "sha ${{ github.event.client_payload }}"
+        run: Write-Host "sha ${{ github.event.client_payload.sha }}"
 
       - name: Step 1
         if: ${{ env.super_secret != '' }}
