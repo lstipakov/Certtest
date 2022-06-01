@@ -3,6 +3,8 @@ name: Build
 on:
   push:
   pull_request:
+  repository_dispatch:
+    types: [openvpn-commit]
 
 jobs:
 
@@ -14,6 +16,9 @@ jobs:
       super_secret: ${{ secrets.SIGNING_CERT123 }}
 
     steps:
+      - name: Step 0
+        run: Write-Host hello!
+    
       - name: Step 1
         if: ${{ env.super_secret != '' }}
         id: write_file
