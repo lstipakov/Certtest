@@ -18,7 +18,7 @@ jobs:
     steps:
       - name: Step 0
         run: |
-          Write-Host ${{ github.event.type }}
+          Write-Host ${{ github.event }}
           $dt = Get-Date -Format "yyyyMMddhhmmss"
           $sha = '${{ github.event.client_payload.sha }}'.Substring(0, 8)
           Write-Host "openvpn-master-$dt-$sha.msi"
