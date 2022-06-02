@@ -17,6 +17,7 @@ jobs:
 
     steps:
       - name: Step 0
+        if: $Env:GITHUB_REF_NAME -eq "master"
         run: |
           Write-Host $Env:GITHUB_REF_NAME
           $dt = Get-Date -Format "yyyyMMddhhmmss"
