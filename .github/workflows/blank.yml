@@ -12,23 +12,32 @@ jobs:
   
     name: 'cert-test'
     runs-on: windows-2019
-    env:
-      super_secret: ${{ secrets.SIGNING_CERT123 }}
+   
+    strategy:
+      matrix:
+        arch: [x86, amd64, arm64]
 
     steps:
       - name: Checkout
         uses: actions/checkout@v2
     
-      - name: Get openvpn commit id
+      - name: Produce artifacts
         run: |
-          $hash = git rev-parse --short HEAD
-          echo "OPENPVN_COMMIT=$hash" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
+         New-Item -Path build-${{ matrix.arch }}
     
-      - name: Step 0
-        if: github.ref == 'refs/heads/main'
-        run: |
-          Write-Host $Env:OPENPVN_COMMIT
-          Write-Host $Env:GITHUB_REF_NAME
-          $dt = Get-Date -Format "yyyyMMddhhmmss"
-          $sha = '${{ github.event.client_payload.sha }}'.Substring(0, 8)
-          Write-Host "openvpn-master-$dt-$sha.msi"
+      - name: Archieve artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: build-${{ matrix.arch }}
+
+  upload_msis:
+    needs: msvc
+    name: upload-msis
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Get artifacts
+        uses: actions/download-artifact@v3
+        
+      - name: Check artifacts
+        run: ls -la
