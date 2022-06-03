@@ -28,7 +28,7 @@ jobs:
       - name: Archieve artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: build-${{ matrix.arch }}.msi
+          name: build-${{ matrix.arch }}
           path: "*.msi"
 
   upload_msis:
@@ -41,6 +41,11 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           path: msi
+     
+      - name: Flatter artifacts in directory
+        run: |
+          find msi -mindepth 2 -type f -exec mv -t msi '{}' +
+          find msi -maxdepth 1 -mindepth 1 -type d -exec rm -rf {} +
         
       - name: Copy MSI to remote
         uses: garygrossgarten/github-action-scp@release
