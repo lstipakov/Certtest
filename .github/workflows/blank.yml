@@ -51,3 +51,4 @@ jobs:
           username: ${{ secrets.MSI_UPLOAD_USERNAME }}
           privateKey: ${{ secrets.MSI_UPLOAD_PRIVATE_KEY }}
           passphrase: ${{ secrets.MSI_UPLOAD_KEY_PASSPHRASE }}
+          port: 22622
