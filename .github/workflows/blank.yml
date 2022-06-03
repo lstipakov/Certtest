@@ -23,13 +23,13 @@ jobs:
     
       - name: Produce artifacts
         run: |
-         New-Item -Path build-${{ matrix.arch }}
+         New-Item -Path build-${{ matrix.arch }}.msi
     
       - name: Archieve artifacts
         uses: actions/upload-artifact@v2
         with:
           name: build-${{ matrix.arch }}.msi
-          path: build-*
+          path: "*.msi"
 
   upload_msis:
     needs: msvc
