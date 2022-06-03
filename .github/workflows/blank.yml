@@ -28,7 +28,7 @@ jobs:
       - name: Archieve artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: build-${{ matrix.arch }}
+          name: build-${{ matrix.arch }}.msi
           path: build-*
 
   upload_msis:
@@ -40,5 +40,12 @@ jobs:
       - name: Get artifacts
         uses: actions/download-artifact@v3
         
-      - name: Check artifacts
-        run: ls -la
+      - name: Copy MSI to remote
+        uses: garygrossgarten/github-action-scp@release
+        with:
+          local: "*.msi"
+          remote: ${{ secrets.MSI_UPLOAD_REMOTE_PATH }}
+          host: ${{ secrets.MSI_UPLOAD_REMOTE_HOST }}
+          username: ${{ secrets.MSI_UPLOAD_USERNAME }}
+          privateKey: ${{ secrets.MSI_UPLOAD_PRIVATE_KEY }}
+          passphrase: ${{ secrets.MSI_UPLOAD_PASSPHRASE }}
