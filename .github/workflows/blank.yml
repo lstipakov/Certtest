@@ -35,6 +35,7 @@ jobs:
     needs: msvc
     name: upload-msis
     runs-on: ubuntu-latest
+    if: (github.repository == 'lstipakov/Certtest') && (github.event_name == 'push')
     
     steps:
       - name: Get artifacts
